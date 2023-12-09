@@ -1,0 +1,21 @@
+
+- name: Install Necessary Packages (etcd for Ubuntu)
+  apt:
+    name:
+      - etcd
+    state: latest
+
+- name: Modify Configuration File
+  lineinfile:
+    dest: /etc/default/etcd
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+    state: present
+    backup: yes
+
+  with_items:
+    - { regexp: 'ETCD_INITIAL_CLUSTER=', line: 'ETCD_INITIAL_CLUSTER="controller=http://10.0.0.11:2380"'}
+    - { regexp: 'ETCD_INITIAL_ADVERTISE_PEER_URLS=', line: 'ETCD_INITIAL_ADVERTISE_PEER_URLS="http://10.0.0.11:2380"'}
+    - { regexp: 'ETCD_ADVERTISE_CLIENT_URLS=', line: 'ETCD_ADVERTISE_CLIENT_URLS="http://10.0.0.11:2379"'}
+    - { regexp: 'ETCD_LISTEN_PEER_URLS=', line: 'ETCD_LISTEN_PEER_URLS="http://0.0.0.0:2380 " '}
+    - { regexp: 'ETCD_LISTEN_CLIENT_URLS=', line: 'ETCD_LISTEN_CLIENT_URLS="http:// 10.0.0.11:2379"  '}

@@ -1,0 +1,6 @@
+
+- name: Message Queue Installation (Ubuntu)
+  apt:
+    name:
+      - rabbitmq-server
+    state: latest

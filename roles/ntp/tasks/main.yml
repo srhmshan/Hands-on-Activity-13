@@ -1,0 +1,22 @@
+- name: Install Chrony (Ubuntu)
+  apt:
+    name: chrony
+    state: latest
+
+- replace:
+    dest: /etc/chrony/chrony.conf
+    regexp: server NTP_SERVER iburst
+    replace: server 192.168.5.235 iburst
+    backup: yes
+
+- name: Add Network Key to Chrony Configuration
+  ansible.builtin.lineinfile:
+    dest: /etc/chrony/chrony.conf
+    line: allow 10.0.0.0/24
+    backup: yes
+
+- name: Verify Chrony Installation (Ubuntu)
+  service:
+    name: chrony
+    state: restarted
+    enabled: true

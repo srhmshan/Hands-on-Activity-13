@@ -1,0 +1,7 @@
+
+- name: Install OpenStack (Ubuntu)
+  apt:
+    name:
+      - nova-compute
+      - python3-openstackclient
+    state: latest

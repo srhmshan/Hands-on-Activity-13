@@ -1,0 +1,20 @@
+
+- name: Ensure Memcached is Installed (Ubuntu)
+  apt:
+    name:
+      - memcached
+      - python3-memcache
+    state: latest
+
+- name: Update Memcached Configuration
+  lineinfile:
+    dest: /etc/memcached.conf
+    regexp: "-1 127.0.0.1"
+    line: "-1 10.0.0.11"
+    state: present
+    backup: yes
+
+- name: Restart Memcached Service
+  service:
+    name: memcached
+    state: restarted
